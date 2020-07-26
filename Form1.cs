@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SpaceEngineersUnlocker;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,11 +8,12 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 
-namespace SpaceEngineersUnlocker
+namespace NotASpaceEngineersUnlocker
 {
     public partial class MainForm : Form
     {
@@ -34,28 +36,31 @@ namespace SpaceEngineersUnlocker
 
                     files = Directory.GetFiles(fbd.SelectedPath, "*.sbc", SearchOption.AllDirectories);
 
-                    System.Windows.Forms.MessageBox.Show($"{files.Length} Space Engineers files found. Press Unlock to start.");
+                    System.Windows.Forms.MessageBox.Show($"{files.Length} Space Engineers .sbc files found. Press Unlock to start.");
                 }
             }
         }
 
         private void ConfirmButton_Click(object sender, EventArgs e)
         {
-            int total = files.Length;
-            int current = 0;
-            foreach (var file in files)
+            new Thread(() =>
             {
-                // Replace string
-                string text = File.ReadAllText(file);
-                text = Regex.Replace(text, @"<(dlc|DLC)>[\w\d\s]*<\/(dlc|DLC)>", "");
-                File.WriteAllText(file, text);
+                int total = files.Length;
+                int current = 0;
+                foreach (var file in files)
+                {
+                    // Replace string
+                    string text = File.ReadAllText(file);
+                    text = Regex.Replace(text, @"<(dlc|DLC)>[\w\d\s]*<\/(dlc|DLC)>", "");
+                    File.WriteAllText(file, text);
 
-                // Update progress bar
-                current++;
-                progressBar.Value = current / total * 100;
-            }
+                    // Update progress bar
+                    current++;
+                    ThreadHelperClass.SetValue(this, progressBar, current * 100 / total );
+                }
+                System.Windows.Forms.MessageBox.Show($"{files.Length} files changed. You can now close the application.");
+            }).Start();
 
-            System.Windows.Forms.MessageBox.Show($"{files.Length} files changed. You can now close the application.");
         }
     }
 }
