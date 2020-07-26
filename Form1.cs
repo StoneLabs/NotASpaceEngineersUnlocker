@@ -50,7 +50,7 @@ namespace NotASpaceEngineersUnlocker
                     ConfirmButton.Enabled = true;
 
                     System.Windows.Forms.MessageBox.Show(
-                        $"{files.Length} Space Engineers .sbc files found in directory (non-recursive).\n" +
+                        $"{files.Length} Space Engineers .sbc files found in directory.\n" +
                         $"Press Unlock to start.");
                 }
             }
