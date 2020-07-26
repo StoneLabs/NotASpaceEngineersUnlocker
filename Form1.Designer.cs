@@ -1,4 +1,4 @@
-﻿namespace SpaceEngineersUnlocker
+﻿namespace NotASpaceEngineersUnlocker
 {
     partial class MainForm
     {
@@ -59,6 +59,7 @@
             // 
             this.PathText.Location = new System.Drawing.Point(147, 14);
             this.PathText.Name = "PathText";
+            this.PathText.ReadOnly = true;
             this.PathText.Size = new System.Drawing.Size(544, 20);
             this.PathText.TabIndex = 2;
             // 
@@ -92,7 +93,7 @@
             this.MaximumSize = new System.Drawing.Size(800, 125);
             this.MinimumSize = new System.Drawing.Size(800, 125);
             this.Name = "MainForm";
-            this.Text = "SpaceEngineersUnlocker";
+            this.Text = "Not a Space Engineers Unlocker";
             this.ResumeLayout(false);
             this.PerformLayout();
 
