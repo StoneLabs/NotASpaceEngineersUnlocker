@@ -32,9 +32,22 @@ namespace NotASpaceEngineersUnlocker
 
                 if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
                 {
+
+                    SearchOption option = SearchOption.TopDirectoryOnly;
+
+                    DialogResult dialogResult = MessageBox.Show("Would you like to look for sbc files in sub folders?", "Recursive Search", MessageBoxButtons.YesNoCancel);
+                    if (dialogResult == DialogResult.Yes)
+                        option = SearchOption.AllDirectories;
+                    else if (dialogResult != DialogResult.No)
+                    {
+                        System.Windows.Forms.MessageBox.Show($"Operation aboted!");
+                        return;
+                    }
+
+                    files = Directory.GetFiles(fbd.SelectedPath, "*.sbc", option).Where(f => f.EndsWith(".sbc")).ToArray();
                     PathText.Text = fbd.SelectedPath;
 
-                    files = Directory.GetFiles(fbd.SelectedPath, "*.sbc", SearchOption.TopDirectoryOnly).Where(f => f.EndsWith(".sbc")).ToArray();
+                    ConfirmButton.Enabled = true;
 
                     System.Windows.Forms.MessageBox.Show(
                         $"{files.Length} Space Engineers .sbc files found in directory (non-recursive).\n" +
