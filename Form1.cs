@@ -34,9 +34,11 @@ namespace NotASpaceEngineersUnlocker
                 {
                     PathText.Text = fbd.SelectedPath;
 
-                    files = Directory.GetFiles(fbd.SelectedPath, "*.sbc", SearchOption.AllDirectories);
+                    files = Directory.GetFiles(fbd.SelectedPath, "*.sbc", SearchOption.TopDirectoryOnly).Where(f => f.EndsWith(".sbc")).ToArray();
 
-                    System.Windows.Forms.MessageBox.Show($"{files.Length} Space Engineers .sbc files found. Press Unlock to start.");
+                    System.Windows.Forms.MessageBox.Show(
+                        $"{files.Length} Space Engineers .sbc files found in directory (non-recursive).\n" +
+                        $"Press Unlock to start.");
                 }
             }
         }
